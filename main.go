@@ -7,6 +7,7 @@ import (
 	"github.com/tigerwill90/djdiscord/internal/build"
 	"github.com/tigerwill90/djdiscord/internal/config"
 	"github.com/tigerwill90/djdiscord/internal/exec"
+	"golang.org/x/exp/slices"
 	"os"
 	"os/signal"
 	"strconv"
@@ -55,7 +56,8 @@ func main() {
 	if status == "" {
 		status = os.Getenv("DJ_DISCORD_BOT_STATUS")
 	}
-	if status != "" && !sliceContain(status, []string{"ONLINE", "IDLE", "DND", "INVISIBLE"}) {
+
+	if status != "" && !slices.Contains([]string{"ONLINE", "IDLE", "DND", "INVISIBLE"}, status) {
 		exitErr(1, errors.New("valid values for status are ONLINE, IDLE, DND, INVISIBLE"))
 	}
 
@@ -100,13 +102,4 @@ func main() {
 func exitErr(code int, err error) {
 	fmt.Fprintln(os.Stderr, err)
 	os.Exit(code)
-}
-
-func sliceContain(s string, slice []string) bool {
-	for _, e := range slice {
-		if s == e {
-			return true
-		}
-	}
-	return false
 }

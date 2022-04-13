@@ -13,7 +13,6 @@ type Cmd struct {
 }
 
 func New(version string) *Cmd {
-	version = "0.3.6"
 	cmd := exec.Command("java", "-Dnogui=true", "-jar", fmt.Sprintf("JMusicBot-%s.jar", version))
 	setNewProcessGroup(cmd)
 	cmd.Stdout = os.Stdout
