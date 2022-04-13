@@ -13,16 +13,16 @@ RUN go mod download
 COPY . .
 
 RUN touch config.txt
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bootstrap -ldflags="-X 'djdiscord/internal/build.Version=${BUILD_VERSION}'" main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bootstraper -ldflags="-X 'github.com/tigerwill90/djdiscord/internal/build.Version=${BUILD_VERSION}'" main.go
 
 FROM gcr.io/distroless/java17-debian11
 ARG BUILD_VERSION
 
 COPY JMusicBot-${BUILD_VERSION}.jar .
-COPY --from=builder --chown=65532:65532 /app/bootstrap .
+COPY --from=builder --chown=65532:65532 /app/bootstraper .
 COPY --from=builder --chown=65532:65532 /app/Playlists /Playlists
 COPY --from=builder --chown=65532:65532 /app/config.txt .
 
-ENTRYPOINT ["/bootstrap"]
+ENTRYPOINT ["/bootstraper"]
 
 USER 65532
