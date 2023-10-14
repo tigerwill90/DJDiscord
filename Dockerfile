@@ -15,7 +15,7 @@ COPY . .
 RUN touch config.txt
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bootstraper -ldflags="-X 'github.com/tigerwill90/djdiscord/internal/build.Version=${BUILD_VERSION}'" main.go
 
-FROM gcr.io/distroless/java17-debian11
+FROM gcr.io/distroless/java17-debian12
 ARG BUILD_VERSION
 
 COPY JMusicBot-${BUILD_VERSION}.jar .
