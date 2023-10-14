@@ -84,7 +84,7 @@ func main() {
 		exitErr(1, fmt.Errorf("unable to start bot: %s", err))
 	}
 
-	sig := make(chan os.Signal)
+	sig := make(chan os.Signal, 2)
 	signal.Notify(sig, os.Interrupt, os.Kill)
 
 	select {
