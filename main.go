@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"slices"
 	"strconv"
+	"syscall"
 
 	"github.com/tigerwill90/djdiscord/internal/build"
 	"github.com/tigerwill90/djdiscord/internal/config"
@@ -86,7 +87,7 @@ func main() {
 	}
 
 	sig := make(chan os.Signal, 2)
-	signal.Notify(sig, os.Interrupt, os.Kill)
+	signal.Notify(sig, syscall.SIGTERM, syscall.SIGINT)
 
 	select {
 	case <-sig:
