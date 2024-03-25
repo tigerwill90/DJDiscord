@@ -4,13 +4,14 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"os"
+	"os/signal"
+	"slices"
+	"strconv"
+
 	"github.com/tigerwill90/djdiscord/internal/build"
 	"github.com/tigerwill90/djdiscord/internal/config"
 	"github.com/tigerwill90/djdiscord/internal/exec"
-	"golang.org/x/exp/slices"
-	"os"
-	"os/signal"
-	"strconv"
 )
 
 var (
