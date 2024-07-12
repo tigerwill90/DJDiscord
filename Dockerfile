@@ -1,6 +1,6 @@
-ARG BUILD_VERSION="0.4.1"
+ARG BUILD_VERSION="0.4.2"
 
-FROM golang:1.22-alpine3.19 as builder
+FROM golang:1.22-alpine3.20 as builder
 ARG BUILD_VERSION
 
 WORKDIR /app
