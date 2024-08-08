@@ -1,4 +1,4 @@
-ARG BUILD_VERSION="0.4.2"
+ARG BUILD_VERSION="0.4.3"
 
 FROM golang:1.22-alpine3.20 as builder
 ARG BUILD_VERSION
