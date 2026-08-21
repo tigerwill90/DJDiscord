@@ -2,9 +2,10 @@ package config
 
 import (
 	"bytes"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestGenerate(t *testing.T) {
@@ -75,6 +76,56 @@ eval=false`,
 			defer buf.Reset()
 			require.NoError(t, Generate(buf, tc.opts))
 			assert.Equal(t, tc.want, buf.String())
+		})
+	}
+}
+
+func TestGenerateOption(t *testing.T) {
+	cases := []struct {
+		name string
+		opts *TemplateOption
+		want []string
+	}{
+		{
+			name: "all options are set",
+			opts: &TemplateOption{
+				Token:  "supersecrettoken",
+				UserID: 123456789,
+				Prefix: "!",
+				Game:   "Minecraft",
+				Status: "DND",
+			},
+			want: []string{
+				"token = supersecrettoken",
+				"owner = 123456789",
+				`prefix = "!"`,
+				`game = "Minecraft"`,
+				"status = DND",
+			},
+		},
+		{
+			name: "values keep their special characters",
+			opts: &TemplateOption{
+				Token:  "a&b",
+				UserID: 1,
+				Prefix: ">",
+				Game:   "Rock'n'Roll <live>",
+			},
+			want: []string{
+				"token = a&b",
+				`prefix = ">"`,
+				`game = "Rock'n'Roll <live>"`,
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			buf := bytes.NewBuffer(nil)
+			require.NoError(t, Generate(buf, tc.opts))
+			for _, want := range tc.want {
+				assert.Contains(t, buf.String(), want)
+			}
 		})
 	}
 }

@@ -1,8 +1,8 @@
 package config
 
 import (
-	"html/template"
 	"io"
+	"text/template"
 )
 
 var t = template.Must(template.New("config.txt").Parse(tmpl))
