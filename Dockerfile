@@ -1,6 +1,6 @@
 ARG BUILD_VERSION="0.4.3"
 
-FROM golang:1.22-alpine3.20 as builder
+FROM golang:1.27-alpine3.24 AS builder
 ARG BUILD_VERSION
 
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY . .
 RUN touch config.txt
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bootstraper -ldflags="-X 'github.com/tigerwill90/djdiscord/internal/build.Version=${BUILD_VERSION}'" main.go
 
-FROM gcr.io/distroless/java17-debian12
+FROM gcr.io/distroless/java21-debian13
 ARG BUILD_VERSION
 
 COPY JMusicBot-${BUILD_VERSION}.jar .
